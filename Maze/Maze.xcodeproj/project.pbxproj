@@ -18,6 +18,8 @@
 		16A03C4316CDB96E00351BBF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16A03C4216CDB96E00351BBF /* Default-568h@2x.png */; };
 		16A03C4616CDB96E00351BBF /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A03C4416CDB96E00351BBF /* MainStoryboard.storyboard */; };
 		16A03C4916CDB96E00351BBF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16A03C4816CDB96E00351BBF /* ViewController.m */; };
+		16A03C5216CDBA2D00351BBF /* MazeCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16A03C5016CDBA2D00351BBF /* MazeCreator.cpp */; };
+		16A03C5516CDBE4F00351BBF /* MazeView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16A03C5416CDBE4F00351BBF /* MazeView.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,10 @@
 		16A03C4516CDB96E00351BBF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		16A03C4716CDB96E00351BBF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		16A03C4816CDB96E00351BBF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		16A03C5016CDBA2D00351BBF /* MazeCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MazeCreator.cpp; sourceTree = "<group>"; };
+		16A03C5116CDBA2D00351BBF /* MazeCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MazeCreator.h; sourceTree = "<group>"; };
+		16A03C5316CDBE4F00351BBF /* MazeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MazeView.h; sourceTree = "<group>"; };
+		16A03C5416CDBE4F00351BBF /* MazeView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MazeView.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,7 @@
 		16A03C1D16CDB96E00351BBF = {
 			isa = PBXGroup;
 			children = (
+				16A03C4F16CDB9DD00351BBF /* Solve */,
 				16A03C3216CDB96E00351BBF /* Maze */,
 				16A03C2B16CDB96E00351BBF /* Frameworks */,
 				16A03C2916CDB96E00351BBF /* Products */,
@@ -88,6 +95,8 @@
 				16A03C4416CDB96E00351BBF /* MainStoryboard.storyboard */,
 				16A03C4716CDB96E00351BBF /* ViewController.h */,
 				16A03C4816CDB96E00351BBF /* ViewController.m */,
+				16A03C5316CDBE4F00351BBF /* MazeView.h */,
+				16A03C5416CDBE4F00351BBF /* MazeView.mm */,
 				16A03C3316CDB96E00351BBF /* Supporting Files */,
 			);
 			path = Maze;
@@ -105,6 +114,15 @@
 				16A03C4216CDB96E00351BBF /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		16A03C4F16CDB9DD00351BBF /* Solve */ = {
+			isa = PBXGroup;
+			children = (
+				16A03C5016CDBA2D00351BBF /* MazeCreator.cpp */,
+				16A03C5116CDBA2D00351BBF /* MazeCreator.h */,
+			);
+			path = Solve;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,6 +194,8 @@
 				16A03C3916CDB96E00351BBF /* main.m in Sources */,
 				16A03C3D16CDB96E00351BBF /* AppDelegate.m in Sources */,
 				16A03C4916CDB96E00351BBF /* ViewController.m in Sources */,
+				16A03C5216CDBA2D00351BBF /* MazeCreator.cpp in Sources */,
+				16A03C5516CDBE4F00351BBF /* MazeView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
