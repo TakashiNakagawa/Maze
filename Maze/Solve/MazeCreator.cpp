@@ -11,7 +11,6 @@
 
 
 struct MazeCreator::Body{
-    
     Body(){
         Initialze();
     }
@@ -35,13 +34,9 @@ struct MazeCreator::Body{
     }
     
     // 壁を壊すかチェック
-    bool CanConnect(const std::vector<MassIndex>& massIndex) const{
-        if (massIndex.size() != 2) {
-            return false;
-        }
-        
-        int lhs = cluster[massIndex[0].x][massIndex[0].y];
-        int rhs = cluster[massIndex[1].x][massIndex[1].y];
+    bool CanConnect(const MassIndex& m, const MassIndex& m2) const{
+        int lhs = cluster[m.x][m.y];
+        int rhs = cluster[m2.x][m2.y];
        
         if (lhs == -1 && rhs == -1) {
             return true;
@@ -50,9 +45,9 @@ struct MazeCreator::Body{
             return false;
         }
         
-        if (lhs < 0 && rhs < 0){
+        if (lhs == -1 && rhs == -1){
             return true;
-        } else if (lhs < 0 || rhs < 0){
+        } else if (lhs == -1 || rhs == -1){
             return false;
         }
         
@@ -60,9 +55,7 @@ struct MazeCreator::Body{
     }
                 
     // 壁の両側のマス番号を取得
-    std::vector<MassIndex> GetMassIndex(bool vertical, int x, int y) const{
-        std::vector<MassIndex> index;
-        MassIndex m, m2;
+    void GetMassIndex(bool vertical, int x, int y, MassIndex& m, MassIndex& m2) const{
         m.x = x;
         m.y = y;
         if (vertical) {
@@ -72,9 +65,6 @@ struct MazeCreator::Body{
             m2.x = x;
             m2.y = y + 1;
         }
-        index.push_back(m);
-        index.push_back(m2);
-        return index;
     }
     
     int Cluster(int x, int y) const{
@@ -130,6 +120,7 @@ struct MazeCreator::Body{
         }
         std::vector<BoarderType> boarder;
         std::vector<std::pair<int, int>> boardIndex;
+        boardIndex.reserve(MASS_SIZE_X*MASS_SIZE_Y);
         if (vertical) {
             boarder = boarder_v;
         } else {
@@ -146,8 +137,9 @@ struct MazeCreator::Body{
                 if (!boarder[i][j]) {
                     continue;
                 }
-                std::vector<MassIndex> mass = this->GetMassIndex(vertical, x, y);
-                if (!this->CanConnect(mass)) {
+                MassIndex m, m2;
+                this->GetMassIndex(vertical, x, y, m, m2);
+                if (!this->CanConnect(m, m2)) {
                     continue;
                 }
                 boardIndex.push_back(std::make_pair(x, y));
@@ -247,8 +239,8 @@ void MazeCreator::Solve(){
         if (!m.Select(v, x, y)){
             break;
         }
-        
-        std::vector<MassIndex> index = m.GetMassIndex(v, x, y);
+        MassIndex m1, m2;
+        m.GetMassIndex(v, x, y, m1, m2);
         if (v) {
             assert(m.BoarderVFlag(x, y));
         } else {
@@ -256,7 +248,7 @@ void MazeCreator::Solve(){
         }
         
         // 同一のクラスターなら壁を壊さない
-        if (!m.CanConnect(index)) {
+        if (!m.CanConnect(m1, m2)) {
             continue;
         }
         
@@ -268,8 +260,8 @@ void MazeCreator::Solve(){
         }
         
         // 大きい方のクラスター番号は小さい方のクラスター番号に合わせる
-        int c1 = m.Cluster(index[0].x, index[0].y);
-        int c2 = m.Cluster(index[1].x, index[1].y);
+        int c1 = m.Cluster(m1.x, m1.y);
+        int c2 = m.Cluster(m2.x, m2.y);
         int big = std::max(c1, c2);
         int small = std::min(c1, c2);
         
