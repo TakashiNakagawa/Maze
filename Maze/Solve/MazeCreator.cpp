@@ -111,22 +111,9 @@ struct MazeCreator::Body{
         boarder_v[x][y] = flag;
     }
     
-    // 選択した壁が縦か横か、壁番号
-    bool Select(bool& vertical, int&x, int&y) {
-        if (boarderDirCheck[0] && boarderDirCheck[1]) {
-            vertical = (rand() %2);
-        } else {
-            vertical = boarderDirCheck[0] ? true : false;
-        }
-        std::vector<BoarderType> boarder;
-        std::vector<std::pair<int, int>> boardIndex;
-        boardIndex.reserve(MASS_SIZE_X*MASS_SIZE_Y);
-        if (vertical) {
-            boarder = boarder_v;
-        } else {
-            boarder = boarder_h;
-        }
-        
+    // 壁番号候補の取得
+    void GetBoardIndexCandidate(bool vertical, const std::vector<BoarderType>& boarder,
+                                std::vector<std::pair<int, int>>& boardIndex) const{
         for (int i = 0; i < boarder.size(); ++i) {
             for (int j = 0; j < boarder[i].size(); ++j) {
                 int x = i;
@@ -145,8 +132,28 @@ struct MazeCreator::Body{
                 boardIndex.push_back(std::make_pair(x, y));
             }
         }
+    }
+    
+    // 選択した壁が縦か横か、壁番号
+    bool Select(bool& vertical, int&x, int&y) {
+        if (boarderDirCheck[0] && boarderDirCheck[1]) {
+            vertical = (rand() %2);
+        } else {
+            vertical = boarderDirCheck[0] ? true : false;
+        }
+        std::vector<BoarderType> boarder;
+        std::vector<std::pair<int, int>> boardIndex;
+        boardIndex.reserve(MASS_SIZE_X*MASS_SIZE_Y);
+        if (vertical) {
+            boarder = boarder_v;
+        } else {
+            boarder = boarder_h;
+        }
+        
+        this->GetBoardIndexCandidate(vertical, boarder, boardIndex);
         if (boardIndex.empty()) {
             if (boarderDirCheck[0] == false && boarderDirCheck[1] == false) {
+                // 検索終了
                 return false;
             }
             if (vertical) {
