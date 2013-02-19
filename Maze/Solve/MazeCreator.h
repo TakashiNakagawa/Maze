@@ -12,7 +12,11 @@
 #include <iostream>
 #include <vector>
 
-struct MathIndex{
+#define MASS_SIZE_X 13
+#define MASS_SIZE_Y 18
+
+
+struct MassIndex{
     int x;// 0始まりの行番号
     int y;// 0始まりの列番号
 };
@@ -22,17 +26,21 @@ typedef std::vector<bool> BoarderType;
 
 class MazeCreator{
 public:
-    // 縦・横のマスサイズ
-    static MazeCreator& create(int x, int y);
+    static MazeCreator& create();
     
     // 予め正解を作る場合のパス
-    void SetPath( const std::vector< MathIndex >& path) const;
+    void SetPath(const std::vector< MassIndex >& path) const;
     
     // 迷路を解く
     void Solve();
     
     // 迷路の結果を取得
-    void Result( std::vector<BoarderType>& boarder_h, std::vector<BoarderType>& boarder_v ) const;
+    void Result(std::vector<BoarderType>& boarder_h, std::vector<BoarderType>& boarder_v) const;
+    
+    // クラスター番号の取得
+    int ClusterNumber(int x, int y) const;
+    
+    
 private:
     MazeCreator();
     virtual ~MazeCreator();
