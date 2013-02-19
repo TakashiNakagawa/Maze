@@ -9,76 +9,6 @@
 #include "MazeCreator.h"
 #include <assert.h>
 
-namespace{
-    
-// ランダムで壁を選択
-class RandamSelector{
-public:
-    
-    // 選択した壁が縦か横か、壁番号
-    void Select(const std::vector<BoarderType>& boarder_v, const std::vector<BoarderType>& boarder_h,
-                bool& vertical, int&x, int&y) const{
-        vertical = (rand() %2);
-        std::vector<BoarderType> boarder;
-        if (vertical) {
-            boarder = boarder_v;
-            int sel = rand() % MASS_SIZE_X * MASS_SIZE_Y;
-            int sel_org = sel;
-            while(true){
-                for (int i = 0; i < boarder.size(); ++i) {
-                    for (int j = 0; j < boarder[i].size(); ++j) {
-                        if (false == boarder[i][j]) {
-                            continue;
-                        }
-                        --sel;
-                        if (sel <= 0) {
-                            x = i;
-                            y = j;
-                            return;
-                        }
-                    }
-                }
-                if (sel == sel_org) {
-                    x = 0;
-                    y = 0;
-                    return;
-                }
-            }
-        } else {
-            boarder = boarder_h;
-            int sel = rand() % MASS_SIZE_X * MASS_SIZE_Y;
-            int sel_org = sel;
-            while(true){
-                for (int j = 0; j < boarder.size(); ++j) {
-                    for (int i = 0; i < boarder[j].size(); ++i) {
-                        if (false == boarder[j][i]) {
-                            continue;
-                        }
-                        --sel;
-                        if (sel <= 0) {
-                            
-                            x = i;
-                            y = j;
-                            
-                            if (x == 14 && y == 10) {
-                                printf("size : %ld", boarder_h.size());
-                            }
-                            
-                            return;
-                        }
-                    }
-                }
-                if (sel == sel_org) {
-                    x = 0;
-                    y = 0;
-                    return;
-                }
-            }
-        }
-    }
-};
-    
-}// anonymous namespace
 
 struct MazeCreator::Body{
     
@@ -103,7 +33,7 @@ struct MazeCreator::Body{
     }
     
     // 壁を壊すかチェック
-    bool CanConnect(const std::vector<MassIndex>& massIndex ) const{
+    bool CanConnect(const std::vector<MassIndex>& massIndex) const{
         if (massIndex.size() != 2) {
             return false;
         }
@@ -180,6 +110,43 @@ struct MazeCreator::Body{
         boarder_v[x][y] = flag;
     }
     
+    // 選択した壁が縦か横か、壁番号
+    bool Select(bool& vertical, int&x, int&y) const{
+        vertical = (rand() %2);
+        std::vector<BoarderType> boarder;
+        std::vector<std::pair<int, int>> boardIndex;
+        if (vertical) {
+            boarder = boarder_v;
+        } else {
+            boarder = boarder_h;
+        }
+        
+        for (int i = 0; i < boarder.size(); ++i) {
+            for (int j = 0; j < boarder[i].size(); ++j) {
+                int x = i;
+                int y = j;
+                if (!vertical) {
+                    std::swap(x, y);
+                }
+                if (!boarder[i][j]) {
+                    continue;
+                }
+                std::vector<MassIndex> mass = this->GetMassIndex(vertical, x, y);
+                if (!this->CanConnect(mass)) {
+                    continue;
+                }
+                boardIndex.push_back(std::make_pair(x, y));
+            }
+        }
+        if (boardIndex.empty()) {
+            return false;
+        }
+        int sel = (rand() % MASS_SIZE_X * MASS_SIZE_Y) % boardIndex.size();
+        x = boardIndex[sel].first;
+        y = boardIndex[sel].second;
+        return true;
+    }
+    
 private:
     int cluster[MASS_SIZE_X][MASS_SIZE_Y];
     // 壁情報
@@ -211,13 +178,14 @@ void MazeCreator::SetPath( const std::vector< MassIndex >& path) const{
 
 // 迷路を解く
 void MazeCreator::Solve(){
-    int count = 0;
-    while(1000 > count++){
+    while(true){
         // ランダムで壁を選択
-        RandamSelector selector;
         bool v;
         int x, y;// 壁番号
-        selector.Select(m.BoarderV(), m.BoarderH(), v, x, y);
+        if (!m.Select(v, x, y)){
+            break;
+        }
+        
         std::vector<MassIndex> index = m.GetMassIndex(v, x, y);
         if (v) {
             assert(m.BoarderVFlag(x, y));
