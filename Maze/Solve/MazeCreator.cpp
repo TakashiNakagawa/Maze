@@ -46,23 +46,18 @@ struct MazeCreator::Body{
     // 壁の両側のマス番号を取得
     std::vector<MassIndex> GetMassIndex(bool vertical, int x, int y) const{
         std::vector<MassIndex> index;
+        MassIndex m, m2;
+        m.x = x;
+        m.y = y;
         if (vertical) {
-            MassIndex m, m2;
-            m.x = x;
-            m.y = y;
             m2.x = x + 1;
             m2.y = y;
-            index.push_back(m);
-            index.push_back(m2);
         } else {
-            MassIndex m, m2;
-            m.x = x;
-            m.y = y;
             m2.x = x;
             m2.y = y + 1;
-            index.push_back(m);
-            index.push_back(m2);
         }
+        index.push_back(m);
+        index.push_back(m2);
         return index;
     }
     

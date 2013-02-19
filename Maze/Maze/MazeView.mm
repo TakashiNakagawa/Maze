@@ -10,7 +10,6 @@
 #include "MazeCreator.h"
 #include <vector>
 
-static int length = 20;
 
 @implementation MazeView
 
@@ -27,8 +26,8 @@ static int length = 20;
 // 指定した頂点の位置を取得（左上を(0, 0)とする)
 static std::pair<int, int> calcPosition(int x_index, int y_index){
     int base = 10;
-    int x = base + x_index * length;
-    int y = base + y_index * length;
+    int x = base + x_index * LENGTH;
+    int y = base + y_index * LENGTH;
     return std::pair<int, int>(x, y);
 }
 
@@ -135,6 +134,8 @@ static std::pair<float, float> calcCenterPosition(int x_index, int y_index){
         }
     }
     
+#if false
+    
     // クラスター番号の表示
     for (int x = 0; x < MASS_SIZE_X; ++x) {
         for (int y = 0; y < MASS_SIZE_Y; ++y) {
@@ -142,6 +143,7 @@ static std::pair<float, float> calcCenterPosition(int x_index, int y_index){
             [self drawNumber:num atCol:x atRow:y];
         }
     }
+#endif
 }
 
 @end

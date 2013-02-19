@@ -12,9 +12,9 @@
 #include <iostream>
 #include <vector>
 
-#define MASS_SIZE_X 13
-#define MASS_SIZE_Y 18
-
+#define MASS_SIZE_X 27
+#define MASS_SIZE_Y 37
+#define LENGTH  10
 
 struct MassIndex{
     int x;// 0始まりの行番号
