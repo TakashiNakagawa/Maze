@@ -109,6 +109,7 @@ static std::pair<float, float> calcCenterPosition(int x_index, int y_index){
     [self drawFrameWithContext:context];
     
     MazeCreator& maze = MazeCreator::create();
+    maze.SetPath(std::vector<MassIndex>());
     maze.Solve();
     // 迷路の結果を取得
     std::vector<BoarderType> boarder_h, boarder_v;

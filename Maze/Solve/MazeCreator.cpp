@@ -30,6 +30,8 @@ struct MazeCreator::Body{
         for (int i = 0; i < MASS_SIZE_X - 1; ++i) {
             boarder_v.push_back(BoarderType(MASS_SIZE_Y, true));
         }
+        boarderDirCheck[0] = true;
+        boarderDirCheck[1] = true;
     }
     
     // 壁を壊すかチェック
@@ -37,9 +39,23 @@ struct MazeCreator::Body{
         if (massIndex.size() != 2) {
             return false;
         }
-        if (cluster[massIndex[0].x][massIndex[0].y] == cluster[massIndex[1].x][massIndex[1].y]){
+        
+        int lhs = cluster[massIndex[0].x][massIndex[0].y];
+        int rhs = cluster[massIndex[1].x][massIndex[1].y];
+       
+        if (lhs == -1 && rhs == -1) {
+            return true;
+        }
+        if (lhs == rhs){
             return false;
         }
+        
+        if (lhs < 0 && rhs < 0){
+            return true;
+        } else if (lhs < 0 || rhs < 0){
+            return false;
+        }
+        
         return true;
     }
                 
@@ -106,8 +122,12 @@ struct MazeCreator::Body{
     }
     
     // 選択した壁が縦か横か、壁番号
-    bool Select(bool& vertical, int&x, int&y) const{
-        vertical = (rand() %2);
+    bool Select(bool& vertical, int&x, int&y) {
+        if (boarderDirCheck[0] && boarderDirCheck[1]) {
+            vertical = (rand() %2);
+        } else {
+            vertical = boarderDirCheck[0] ? true : false;
+        }
         std::vector<BoarderType> boarder;
         std::vector<std::pair<int, int>> boardIndex;
         if (vertical) {
@@ -134,7 +154,16 @@ struct MazeCreator::Body{
             }
         }
         if (boardIndex.empty()) {
-            return false;
+            if (boarderDirCheck[0] == false && boarderDirCheck[1] == false) {
+                return false;
+            }
+            if (vertical) {
+                boarderDirCheck[0] = false;
+            } else {
+                boarderDirCheck[1] = false;
+            }
+            // 再帰
+            return this->Select(vertical, x, y);
         }
         int sel = (rand() % MASS_SIZE_X * MASS_SIZE_Y) % boardIndex.size();
         x = boardIndex[sel].first;
@@ -142,11 +171,22 @@ struct MazeCreator::Body{
         return true;
     }
     
+    
+    // 検索して見つからなければ無効にする
+    void InvalidateBoarder(bool vertical) {
+        if (vertical) {
+            boarderDirCheck[0] = false;
+        } else {
+            boarderDirCheck[1] = false;
+        }
+    }
+    
 private:
     int cluster[MASS_SIZE_X][MASS_SIZE_Y];
     // 壁情報
     std::vector<BoarderType> boarder_h;// 水平の壁
     std::vector<BoarderType> boarder_v;// 垂直の壁
+    bool boarderDirCheck[2]; //[0]:縦, [1]:横
 };
 
 
@@ -167,7 +207,34 @@ MazeCreator& MazeCreator::create(){
 
 // 予め正解を作る場合のパス
 void MazeCreator::SetPath( const std::vector< MassIndex >& path) const{
-
+    
+    // テストコード
+    for (int i = 0; i < MASS_SIZE_X; ++i) {
+        m.SetCluster(i, 0, -1);
+        m.SetCluster(i, 4, -1);
+        m.SetCluster(i, 8, -1);
+        m.SetCluster(i, 12, -1);
+        m.SetCluster(i, 16, -1);
+    }
+    m.SetCluster(MASS_SIZE_X-1, 0, -1);
+    m.SetCluster(MASS_SIZE_X-1, 1, -1);
+    m.SetCluster(MASS_SIZE_X-1, 2, -1);
+    m.SetCluster(MASS_SIZE_X-1, 3, -1);
+    
+    m.SetCluster(0, 4, -1);
+    m.SetCluster(0, 5, -1);
+    m.SetCluster(0, 6, -1);
+    m.SetCluster(0, 7, -1);
+    
+    m.SetCluster(MASS_SIZE_X-1, 8, -1);
+    m.SetCluster(MASS_SIZE_X-1, 9, -1);
+    m.SetCluster(MASS_SIZE_X-1, 10, -1);
+    m.SetCluster(MASS_SIZE_X-1, 11, -1);
+    
+    m.SetCluster(0, 12, -1);
+    m.SetCluster(0, 13, -1);
+    m.SetCluster(0, 14, -1);
+    m.SetCluster(0, 15, -1);
 }
 
 
