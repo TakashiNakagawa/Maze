@@ -10,8 +10,8 @@
 #include "MazeCreator.h"
 #include <vector>
 
-
 @implementation MazeView
+
 
 - (id)initWithFrame:(CGRect)frame
 {
