@@ -10,6 +10,12 @@
 #include "MazeCreator.h"
 #include <vector>
 
+@interface MazeView(){
+    std::vector<MassIndex> _mass;
+}
+@end
+
+
 @implementation MazeView
 
 
@@ -22,6 +28,15 @@
     return self;
 }
 
+-(void) setInitPath:(const std::vector<std::pair<int, int> >&) mass{
+    _mass.clear();
+    for (std::vector<std::pair<int, int> >::const_iterator it = mass.begin(); it != mass.end(); ++it) {
+        MassIndex m;
+        m.x = it->first;
+        m.y = it->second;
+        _mass.push_back(m);
+    }
+}
 
 // 指定した頂点の位置を取得（左上を(0, 0)とする)
 static std::pair<int, int> calcPosition(int x_index, int y_index){
@@ -37,7 +52,6 @@ static std::pair<float, float> calcCenterPosition(int x_index, int y_index){
     std::pair<int, int> p1 = calcPosition(x_index+1, y_index+1);
     return std::pair<float, float>((p0.first + p1.first)*0.5, (p0.second + p1.second)*0.5);
 }
-
 
 
 // 迷路の枠線
@@ -98,18 +112,20 @@ static std::pair<float, float> calcCenterPosition(int x_index, int y_index){
     [string drawAtPoint:CGPointMake(p.first, p.second) withFont:[UIFont systemFontOfSize:8]];
 }
 
-
-
 // 迷路を表示
 - (void)drawRect:(CGRect)rect
 {
     [super drawRect:rect];
     
+    if (_mass.empty()) {
+        return;
+    }
+    
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self drawFrameWithContext:context];
     
     MazeCreator& maze = MazeCreator::create();
-    maze.SetPath(std::vector<MassIndex>());
+    maze.SetPath(_mass);
     maze.Solve();
     // 迷路の結果を取得
     std::vector<BoarderType> boarder_h, boarder_v;

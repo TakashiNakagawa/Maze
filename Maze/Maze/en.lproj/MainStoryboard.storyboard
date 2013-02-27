@@ -15,15 +15,33 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7v5-Oz-6r0" customClass="MazeView">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ojV-WY-NdI">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="buttonPushed:" destination="2" eventType="touchUpInside" id="hu6-rd-QXy"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="7v5-Oz-6r0" firstAttribute="top" secondItem="3" secondAttribute="top" constant="20" symbolic="YES" type="default" id="Slc-sp-ulp"/>
+                            <constraint firstAttribute="bottom" secondItem="7v5-Oz-6r0" secondAttribute="bottom" constant="79" id="XJE-tR-TB6"/>
                             <constraint firstAttribute="trailing" secondItem="7v5-Oz-6r0" secondAttribute="trailing" constant="13" id="Yp6-vx-3Kh"/>
                             <constraint firstItem="7v5-Oz-6r0" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="12" id="e5C-Xs-DgG"/>
-                            <constraint firstAttribute="bottom" secondItem="7v5-Oz-6r0" secondAttribute="bottom" constant="35" id="osv-I1-4df"/>
+                            <constraint firstAttribute="bottom" secondItem="ojV-WY-NdI" secondAttribute="bottom" constant="14" id="o4J-vG-N42"/>
+                            <constraint firstItem="ojV-WY-NdI" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" type="default" id="qy6-y8-6zu"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mazeView" destination="7v5-Oz-6r0" id="l2e-Tn-pSc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
             </objects>
@@ -38,6 +56,10 @@
         </class>
         <class className="ViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="buttonPushed:"/>
+                <relationship kind="outlet" name="mazeView" candidateClass="MazeView"/>
+            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

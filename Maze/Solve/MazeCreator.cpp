@@ -13,8 +13,14 @@ struct MazeCreator::Body{
     Body(){
         Initialze();
     }
+    
+    void Clear() {
+        boarder_h.clear();
+        boarder_v.clear();
+    }
 
     void Initialze(){
+        Clear();
         int i = 0;
         for (int y = 0; y < MASS_SIZE_Y; ++y) {
             for (int x = 0; x < MASS_SIZE_X; ++x){
@@ -115,13 +121,13 @@ struct MazeCreator::Body{
                                 std::vector<std::pair<int, int> >& boardIndex) const{
         for (int i = 0; i < boarder.size(); ++i) {
             for (int j = 0; j < boarder[i].size(); ++j) {
+                if (!boarder[i][j]) {
+                    continue;
+                }
                 int x = i;
                 int y = j;
                 if (!vertical) {
                     std::swap(x, y);
-                }
-                if (!boarder[i][j]) {
-                    continue;
                 }
                 MassIndex m, m2;
                 this->GetMassIndex(vertical, x, y, m, m2);
@@ -205,34 +211,10 @@ MazeCreator& MazeCreator::create(){
 
 // 予め正解を作る場合のパス
 void MazeCreator::SetPath( const std::vector< MassIndex >& path) const{
-    
-    // テストコード
-    for (int i = 0; i < MASS_SIZE_X; ++i) {
-        m.SetCluster(i, 0, -1);
-        m.SetCluster(i, 4, -1);
-        m.SetCluster(i, 8, -1);
-        m.SetCluster(i, 12, -1);
-        m.SetCluster(i, 16, -1);
+    m.Initialze();
+    for (std::vector<MassIndex>::const_iterator it = path.begin(); it != path.end(); ++it) {
+        m.SetCluster(it->x, it->y, -1);
     }
-    m.SetCluster(MASS_SIZE_X-1, 0, -1);
-    m.SetCluster(MASS_SIZE_X-1, 1, -1);
-    m.SetCluster(MASS_SIZE_X-1, 2, -1);
-    m.SetCluster(MASS_SIZE_X-1, 3, -1);
-    
-    m.SetCluster(0, 4, -1);
-    m.SetCluster(0, 5, -1);
-    m.SetCluster(0, 6, -1);
-    m.SetCluster(0, 7, -1);
-    
-    m.SetCluster(MASS_SIZE_X-1, 8, -1);
-    m.SetCluster(MASS_SIZE_X-1, 9, -1);
-    m.SetCluster(MASS_SIZE_X-1, 10, -1);
-    m.SetCluster(MASS_SIZE_X-1, 11, -1);
-    
-    m.SetCluster(0, 12, -1);
-    m.SetCluster(0, 13, -1);
-    m.SetCluster(0, 14, -1);
-    m.SetCluster(0, 15, -1);
 }
 
 

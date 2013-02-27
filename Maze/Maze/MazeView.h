@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface MazeView : UIView
+
+-(void) setInitPath:(const std::vector<std::pair<int, int> >&) mass;
 
 @end
