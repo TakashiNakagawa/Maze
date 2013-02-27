@@ -27,6 +27,7 @@ typedef std::vector<bool> BoarderType;
 class MazeCreator{
 public:
     static MazeCreator& create();
+    virtual ~MazeCreator();    
     
     // 予め正解を作る場合のパス
     void SetPath(const std::vector< MassIndex >& path) const;
@@ -43,7 +44,6 @@ public:
     
 private:
     MazeCreator();
-    virtual ~MazeCreator();
     
     struct Body;
     Body& m;
