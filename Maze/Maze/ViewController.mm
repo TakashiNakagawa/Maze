@@ -12,6 +12,7 @@
 @interface ViewController ()
 
 @property (weak, nonatomic) IBOutlet MazeView *mazeView;
+@property (weak, nonatomic) IBOutlet UIImageView *resultView;
 
 @end
 
@@ -116,19 +117,21 @@
     cv::Mat matImage = [self MatFromUIImage:image];
     
     // グレイスケール化
-    cv::Mat grayimg;
+    cv::Mat grayimg, graying_tmp;
     cv::cvtColor(matImage, grayimg, CV_BGR2GRAY);
+    
     
     // 二値化
     cv::Mat binimg;
-    cv::threshold(grayimg, binimg, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
-   
+//    cv::threshold(grayimg, binimg, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
+    cv::adaptiveThreshold(grayimg, binimg, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 7, 8);
+    
     std::vector<std::pair<int, int> > mass;
     for (int y = 0; y < binimg.rows; ++y) {
         for (int x = 0; x < binimg.cols; ++x) {
             int val = static_cast<int>(binimg.at<unsigned char>(y, x));
             if (val < 200) {
-                printf("%d, %d\n", x/4, y/4);
+//                printf("%d, %d\n", x/4, y/4);
                 mass.push_back(std::make_pair(x/4, y/4));
             }
         }
@@ -138,6 +141,9 @@
     mass.erase(std::unique(mass.begin(), mass.end()), mass.end());
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+//    self.resultView.image = [self UIImageFromMatBGR:binimg];
+//    [self.resultView setNeedsDisplay];
     
     [self.mazeView setInitPath:mass];
     [self.mazeView setNeedsDisplay];

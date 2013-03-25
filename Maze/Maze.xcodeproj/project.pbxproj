@@ -65,7 +65,6 @@
 		16A03C1D16CDB96E00351BBF = {
 			isa = PBXGroup;
 			children = (
-				16FB53E516D4D4E7007630B0 /* opencv2.framework */,
 				16A03C4F16CDB9DD00351BBF /* Solve */,
 				16A03C3216CDB96E00351BBF /* Maze */,
 				16A03C2B16CDB96E00351BBF /* Frameworks */,
@@ -84,6 +83,7 @@
 		16A03C2B16CDB96E00351BBF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16FB53E516D4D4E7007630B0 /* opencv2.framework */,
 				16A03C2C16CDB96E00351BBF /* UIKit.framework */,
 				16A03C2E16CDB96E00351BBF /* Foundation.framework */,
 				16A03C3016CDB96E00351BBF /* CoreGraphics.framework */,

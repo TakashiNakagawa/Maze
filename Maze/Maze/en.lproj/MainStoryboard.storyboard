@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C3006" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -13,7 +13,18 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7v5-Oz-6r0" customClass="MazeView">
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mMe-Ak-yJU" userLabel="result" customClass="UIImageView">
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="mMe-Ak-yJU" firstAttribute="bottom" secondItem="7v5-Oz-6r0" secondAttribute="bottom" type="default" id="3aV-WC-jQL"/>
+                                    <constraint firstItem="mMe-Ak-yJU" firstAttribute="trailing" secondItem="7v5-Oz-6r0" secondAttribute="trailing" type="default" id="Ga9-8Z-nwh"/>
+                                    <constraint firstItem="mMe-Ak-yJU" firstAttribute="leading" secondItem="7v5-Oz-6r0" secondAttribute="leading" type="default" id="YC4-Oj-c39"/>
+                                    <constraint firstItem="mMe-Ak-yJU" firstAttribute="top" secondItem="7v5-Oz-6r0" secondAttribute="top" constant="434" id="viI-tj-AZ2"/>
+                                </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ojV-WY-NdI">
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -41,6 +52,7 @@
                     </view>
                     <connections>
                         <outlet property="mazeView" destination="7v5-Oz-6r0" id="l2e-Tn-pSc"/>
+                        <outlet property="resultView" destination="mMe-Ak-yJU" id="lVW-yK-cbx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -56,10 +68,6 @@
         </class>
         <class className="ViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="buttonPushed:"/>
-                <relationship kind="outlet" name="mazeView" candidateClass="MazeView"/>
-            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
