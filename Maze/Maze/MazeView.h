@@ -10,5 +10,7 @@
 @interface MazeView : UIView
 
 -(void) setInitPath:(const std::vector<std::pair<int, int> >&) mass;
+@property UIColor *frameColor;// 外枠の色
+@property UIColor *lineColor;// 迷路の色
 
 @end

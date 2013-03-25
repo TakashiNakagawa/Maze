@@ -24,6 +24,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        _frameColor = [UIColor redColor];
+        _lineColor = [UIColor blackColor];
     }
     return self;
 }
@@ -58,7 +60,7 @@ static std::pair<float, float> calcCenterPosition(int x_index, int y_index){
 - (void)drawFrameWithContext:(CGContextRef) ctx
 {
     CGContextSetLineWidth(ctx, 3.0);
-    CGContextSetStrokeColorWithColor(ctx, [UIColor redColor].CGColor);
+    CGContextSetStrokeColorWithColor(ctx, self.frameColor.CGColor);
     
     std::pair<int, int> p0 = calcPosition(0, 0);
     std::pair<int, int> p1 = calcPosition(MASS_SIZE_X, 0);
@@ -78,7 +80,7 @@ static std::pair<float, float> calcCenterPosition(int x_index, int y_index){
 - (void)drawVerticalBoarderWithContext:(CGContextRef)ctx atCol:(int)col atRow:(int)row 
 {
     CGContextSetLineWidth(ctx, 1.0);
-    CGContextSetStrokeColorWithColor(ctx, [UIColor blueColor].CGColor);
+    CGContextSetStrokeColorWithColor(ctx, self.lineColor.CGColor);
     
     std::pair<int, int> p0 = calcPosition(col, row);
     std::pair<int, int> p1 = calcPosition(col, row+1);
@@ -93,7 +95,7 @@ static std::pair<float, float> calcCenterPosition(int x_index, int y_index){
 - (void)drawHorizontalBoarderWithContext:(CGContextRef)ctx atCol:(int)col atRow:(int)row
 {
     CGContextSetLineWidth(ctx, 1.0);
-    CGContextSetStrokeColorWithColor(ctx, [UIColor blueColor].CGColor);
+    CGContextSetStrokeColorWithColor(ctx, self.lineColor.CGColor);
     
     std::pair<int, int> p0 = calcPosition(col, row);
     std::pair<int, int> p1 = calcPosition(col+1, row);
