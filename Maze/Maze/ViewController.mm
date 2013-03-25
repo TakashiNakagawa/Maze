@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "MazeView.h"
+#import "MazeCreator.h"
 
 @interface ViewController ()
 
@@ -132,7 +133,7 @@
             int val = static_cast<int>(binimg.at<unsigned char>(y, x));
             if (val < 200) {
 //                printf("%d, %d\n", x/4, y/4);
-                mass.push_back(std::make_pair(x/4, y/4));
+                mass.push_back(std::make_pair(x/(256/MASS_SIZE_X), y/(256/MASS_SIZE_Y)));
             }
         }
     }

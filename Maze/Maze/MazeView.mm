@@ -79,8 +79,8 @@ static std::pair<float, float> calcCenterPosition(int x_index, int y_index){
 // 迷路の区切り縦線
 - (void)drawVerticalBoarderWithContext:(CGContextRef)ctx atCol:(int)col atRow:(int)row 
 {
-    CGContextSetLineWidth(ctx, 1.0);
     CGContextSetStrokeColorWithColor(ctx, self.lineColor.CGColor);
+    CGContextSetLineWidth(ctx, 1.0);
     
     std::pair<int, int> p0 = calcPosition(col, row);
     std::pair<int, int> p1 = calcPosition(col, row+1);
