@@ -12,10 +12,10 @@
 #include <iostream>
 #include <vector>
 
-//#define MASS_SIZE_X 64
-//#define MASS_SIZE_Y 64
-#define MASS_SIZE_X 128
-#define MASS_SIZE_Y 128
+#define MASS_SIZE_X 64
+#define MASS_SIZE_Y 64
+//#define MASS_SIZE_X 128
+//#define MASS_SIZE_Y 128
 //#define LENGTH  3
 
 struct MassIndex{
