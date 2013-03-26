@@ -8,6 +8,8 @@
 
 #include "MazeCreator.h"
 #include <assert.h>
+#include "CommonTypedef.h"
+#include "MazeGapFiller.h"
 
 struct MazeCreator::Body{
     Body(){
@@ -21,10 +23,10 @@ struct MazeCreator::Body{
 
     void Initialze(){
         Clear();
-        int i = 0;
+        int val = 0;
         for (int y = 0; y < MASS_SIZE_Y; ++y) {
             for (int x = 0; x < MASS_SIZE_X; ++x){
-                cluster[x][y] = i++;
+                cluster[x][y] = val++;
             }
         }
         for (int i = 0; i < MASS_SIZE_Y - 1; ++i) {
@@ -185,6 +187,15 @@ struct MazeCreator::Body{
         }
     }
     
+    // 正解を設定
+    void PushAnswerCluster( const std::vector<MassIndex>& path ) {
+        printf("\n");
+        for (std::vector<MassIndex>::const_iterator it = path.begin(); it != path.end(); ++it) {
+            this->SetCluster(it->x, it->y, -1);
+            printf("%d, %d\n", it->x, it->y);
+        }
+    }
+
 private:
     int cluster[MASS_SIZE_X][MASS_SIZE_Y];
     // 壁情報
@@ -204,17 +215,30 @@ MazeCreator::~MazeCreator(){
 
 
 // 縦・横のマスサイズ
-MazeCreator& MazeCreator::create(){
+MazeCreator& MazeCreator::Instance(){
     static MazeCreator instance;
     return instance;
 }
 
+
 // 予め正解を作る場合のパス
-void MazeCreator::SetPath( const std::vector< MassIndex >& path) const{
+void MazeCreator::SetPath(const std::vector< MassIndex >& path) const{
     m.Initialze();
-    for (std::vector<MassIndex>::const_iterator it = path.begin(); it != path.end(); ++it) {
-        m.SetCluster(it->x, it->y, -1);
-    }
+    m.PushAnswerCluster(path);
+    
+    // スタートとゴールを補完するパスを設定
+    MassIndex stt, end;
+    stt.x = 0;
+    stt.y = 0;
+    end.x = MASS_SIZE_X - 1;
+    end.y = MASS_SIZE_Y - 1;
+    MazeGapFiller gapStt(stt, path.front());
+    MazeGapFiller gapEnd(path.back(), end);
+    std::vector<MassIndex> result_x, result_y;
+    gapStt.GetResult(result_x);
+    gapEnd.GetResult(result_y);
+    m.PushAnswerCluster(result_x);
+    m.PushAnswerCluster(result_y);
 }
 
 

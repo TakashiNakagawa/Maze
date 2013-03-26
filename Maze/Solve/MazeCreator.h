@@ -11,24 +11,12 @@
 
 #include <iostream>
 #include <vector>
+#include "CommonTypedef.h"
 
-#define MASS_SIZE_X 64
-#define MASS_SIZE_Y 64
-//#define MASS_SIZE_X 128
-//#define MASS_SIZE_Y 128
-//#define LENGTH  3
-
-struct MassIndex{
-    int x;// 0始まりの行番号
-    int y;// 0始まりの列番号
-};
-
-// 壁を除いて０始まりで境界を示す。true:壁有り、false:壁なし
-typedef std::vector<bool> BoarderType;
 
 class MazeCreator{
 public:
-    static MazeCreator& create();
+    static MazeCreator& Instance();
     virtual ~MazeCreator();    
     
     // 予め正解を作る場合のパス

@@ -20,6 +20,7 @@
 		16A03C4916CDB96E00351BBF /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16A03C4816CDB96E00351BBF /* ViewController.mm */; };
 		16A03C5216CDBA2D00351BBF /* MazeCreator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16A03C5016CDBA2D00351BBF /* MazeCreator.cpp */; };
 		16A03C5516CDBE4F00351BBF /* MazeView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16A03C5416CDBE4F00351BBF /* MazeView.mm */; };
+		16F048721701757D0073C1A0 /* MazeGapFiller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 16F048701701757D0073C1A0 /* MazeGapFiller.cpp */; };
 		16FB53E616D4D4E7007630B0 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16FB53E516D4D4E7007630B0 /* opencv2.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,9 @@
 		16A03C5116CDBA2D00351BBF /* MazeCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MazeCreator.h; sourceTree = "<group>"; };
 		16A03C5316CDBE4F00351BBF /* MazeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MazeView.h; sourceTree = "<group>"; };
 		16A03C5416CDBE4F00351BBF /* MazeView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MazeView.mm; sourceTree = "<group>"; };
+		16F048701701757D0073C1A0 /* MazeGapFiller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MazeGapFiller.cpp; sourceTree = "<group>"; };
+		16F048711701757D0073C1A0 /* MazeGapFiller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MazeGapFiller.h; sourceTree = "<group>"; };
+		16F04873170176090073C1A0 /* CommonTypedef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonTypedef.h; sourceTree = "<group>"; };
 		16FB53E516D4D4E7007630B0 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../opencv2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,6 +130,9 @@
 			children = (
 				16A03C5016CDBA2D00351BBF /* MazeCreator.cpp */,
 				16A03C5116CDBA2D00351BBF /* MazeCreator.h */,
+				16F048701701757D0073C1A0 /* MazeGapFiller.cpp */,
+				16F048711701757D0073C1A0 /* MazeGapFiller.h */,
+				16F04873170176090073C1A0 /* CommonTypedef.h */,
 			);
 			path = Solve;
 			sourceTree = "<group>";
@@ -208,6 +215,7 @@
 				16A03C4916CDB96E00351BBF /* ViewController.mm in Sources */,
 				16A03C5216CDBA2D00351BBF /* MazeCreator.cpp in Sources */,
 				16A03C5516CDBE4F00351BBF /* MazeView.mm in Sources */,
+				16F048721701757D0073C1A0 /* MazeGapFiller.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

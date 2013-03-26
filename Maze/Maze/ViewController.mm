@@ -10,10 +10,9 @@
 #import "MazeView.h"
 #import "MazeCreator.h"
 #import <QuartzCore/CALayer.h>
+#import "CommonTypedef.h"
 
-@interface ViewController () {
-    MazeCreator *_maze;
-}
+@interface ViewController () 
 
 @property (weak, nonatomic) IBOutlet MazeView *mazeView;
 @property (weak, nonatomic) IBOutlet UIImageView *resultView;
@@ -107,6 +106,9 @@
     return finalImage;
 }
 
+static bool less_than(const std::pair<int, int>& a, const std::pair<int, int>& b){
+    return a.first*a.first + a.second*a.second < b.first*b.first + b.second*b.second;
+}
 
 - (void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -142,7 +144,7 @@
         }
     }
     
-    std::sort(mass.begin(), mass.end());
+    std::sort(mass.begin(), mass.end(), less_than);
     mass.erase(std::unique(mass.begin(), mass.end()), mass.end());
     
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -157,13 +159,11 @@
         m.y = it->second;
         massIndex.push_back(m);
     }
-
     
-    _maze = &MazeCreator::create();
-    _maze->SetPath(massIndex);
-    _maze->Solve();
+    MazeCreator::Instance().SetPath(massIndex);
+    MazeCreator::Instance().Solve();
     
-    [self.mazeView setMazeCreator:_maze];
+    [self.mazeView setMazeCreator:&MazeCreator::Instance()];
     [self.mazeView setNeedsDisplay];
     
     [self saveImage];
@@ -172,9 +172,7 @@
 //画像を保存する
 -(void)saveImage
 {
-//    CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGRect screenRect = self.mazeView.frame;
-    //    CGSize size = { 480, 320 };
     UIGraphicsBeginImageContextWithOptions(self.mazeView.frame.size, NO, 0);
     
     CGContextRef ctx = UIGraphicsGetCurrentContext();
@@ -191,12 +189,6 @@
     UIImageWriteToSavedPhotosAlbum(screenImage, nil, nil, nil);
     UIGraphicsEndImageContext();
 
-}
-
-// 完了を知らせる
-- (void) savingImageIsFinished:(UIImage *)_image didFinishSavingWithError:(NSError *)_error contextInfo:(void *)_contextInfo
-{
-    NSLog(@"ここでインジケータでもだそうか！");
 }
 
 @end
