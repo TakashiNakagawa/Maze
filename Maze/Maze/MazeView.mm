@@ -11,9 +11,9 @@
 #include <vector>
 
 @interface MazeView(){
-    std::vector<MassIndex> _mass;
-    int _x_length;
-    int _y_length;
+    const MazeCreator* _maze;
+    float _x_length;
+    float _y_length;
 }
 @end
 
@@ -32,29 +32,24 @@
     return self;
 }
 
--(void) setInitPath:(const std::vector<std::pair<int, int> >&) mass{
-    _mass.clear();
-    for (std::vector<std::pair<int, int> >::const_iterator it = mass.begin(); it != mass.end(); ++it) {
-        MassIndex m;
-        m.x = it->first;
-        m.y = it->second;
-        _mass.push_back(m);
-    }
-}
 
 // 指定した頂点の位置を取得（左上を(0, 0)とする)
-static std::pair<int, int> calcPosition(int x_index, int y_index, int x_length, int y_length){
-    int base = 10;
+static std::pair<int, int> calcPosition(int x_index, int y_index, float x_length, float y_length){
+    int base = 0;
     int x = base + x_index * x_length;
     int y = base + y_index * y_length;
     return std::pair<int, int>(x, y);
 }
 
 // マスの中央の位置を取得
-static std::pair<float, float> calcCenterPosition(int x_index, int y_index, int x_length, int y_length){
+static std::pair<float, float> calcCenterPosition(int x_index, int y_index, float x_length, float y_length){
     std::pair<int, int> p0 = calcPosition(x_index, y_index, x_length, y_length);
     std::pair<int, int> p1 = calcPosition(x_index+1, y_index+1, x_length, y_length);
     return std::pair<float, float>((p0.first + p1.first)*0.5, (p0.second + p1.second)*0.5);
+}
+
+-(void) setMazeCreator:(const MazeCreator*) maze {
+    _maze = maze;
 }
 
 // 迷路の枠線
@@ -120,23 +115,21 @@ static std::pair<float, float> calcCenterPosition(int x_index, int y_index, int 
 {
     [super drawRect:rect];
     
-    if (_mass.empty()) {
-        return;
+    if (!_maze) {
+        return ;
     }
     
     CGSize size = self.frame.size;
     _x_length = size.width / MASS_SIZE_X;
     _y_length = size.height / MASS_SIZE_Y;
+    _y_length *= 0.8;
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self drawFrameWithContext:context];
     
-    MazeCreator& maze = MazeCreator::create();
-    maze.SetPath(_mass);
-    maze.Solve();
     // 迷路の結果を取得
     std::vector<BoarderType> boarder_h, boarder_v;
-    maze.Result(boarder_h, boarder_v);
+    _maze->Result(boarder_h, boarder_v);
     
     // 縦線
     for (int i = 0; i < boarder_v.size(); ++i) {

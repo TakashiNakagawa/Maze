@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+
+class MazeCreator;
 @interface MazeView : UIView
 
--(void) setInitPath:(const std::vector<std::pair<int, int> >&) mass;
+-(void) setMazeCreator:(const MazeCreator*) maze;
+
 @property UIColor *frameColor;// 外枠の色
 @property UIColor *lineColor;// 迷路の色
 

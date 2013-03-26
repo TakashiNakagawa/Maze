@@ -9,8 +9,11 @@
 #import "ViewController.h"
 #import "MazeView.h"
 #import "MazeCreator.h"
+#import <QuartzCore/CALayer.h>
 
-@interface ViewController ()
+@interface ViewController () {
+    MazeCreator *_maze;
+}
 
 @property (weak, nonatomic) IBOutlet MazeView *mazeView;
 @property (weak, nonatomic) IBOutlet UIImageView *resultView;
@@ -125,6 +128,7 @@
     // 二値化
     cv::Mat binimg;
 //    cv::threshold(grayimg, binimg, 0, 255, CV_THRESH_BINARY | CV_THRESH_OTSU);
+    // 大津の方法よりこちらの方がうまく画像を認識出来た
     cv::adaptiveThreshold(grayimg, binimg, 255, CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY, 7, 8);
     
     std::vector<std::pair<int, int> > mass;
@@ -146,8 +150,53 @@
 //    self.resultView.image = [self UIImageFromMatBGR:binimg];
 //    [self.resultView setNeedsDisplay];
     
-    [self.mazeView setInitPath:mass];
+    std::vector<MassIndex> massIndex;
+    for (std::vector<std::pair<int, int> >::const_iterator it = mass.begin(); it != mass.end(); ++it) {
+        MassIndex m;
+        m.x = it->first;
+        m.y = it->second;
+        massIndex.push_back(m);
+    }
+
+    
+    _maze = &MazeCreator::create();
+    _maze->SetPath(massIndex);
+    _maze->Solve();
+    
+    [self.mazeView setMazeCreator:_maze];
     [self.mazeView setNeedsDisplay];
+    
+    [self saveImage];
+}
+
+//画像を保存する
+-(void)saveImage
+{
+//    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGRect screenRect = self.mazeView.frame;
+    //    CGSize size = { 480, 320 };
+    UIGraphicsBeginImageContextWithOptions(self.mazeView.frame.size, NO, 0);
+    
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    [[UIColor blackColor] set];
+    CGContextFillRect(ctx, screenRect);
+    
+    // 保存するビューを指定
+    [self.mazeView.layer renderInContext:ctx];
+    
+    // 指定したビューをPNGで取得
+    NSData *pngData = UIImagePNGRepresentation(UIGraphicsGetImageFromCurrentImageContext());
+    UIImage *screenImage = [UIImage imageWithData:pngData] ;
+    // 取得したPNG画像をカメラロールに保存する
+    UIImageWriteToSavedPhotosAlbum(screenImage, nil, nil, nil);
+    UIGraphicsEndImageContext();
+
+}
+
+// 完了を知らせる
+- (void) savingImageIsFinished:(UIImage *)_image didFinishSavingWithError:(NSError *)_error contextInfo:(void *)_contextInfo
+{
+    NSLog(@"ここでインジケータでもだそうか！");
 }
 
 @end
