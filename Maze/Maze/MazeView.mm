@@ -64,11 +64,14 @@ static std::pair<float, float> calcCenterPosition(CGSize size, int x_index, int 
     std::pair<int, int> p1 = calcPosition(self.frame.size, MASS_SIZE_X, 0, _x_length, _y_length);
     std::pair<int, int> p2 = calcPosition(self.frame.size, MASS_SIZE_X, MASS_SIZE_Y, _x_length, _y_length);
     std::pair<int, int> p3 = calcPosition(self.frame.size, 0, MASS_SIZE_Y, _x_length, _y_length);
-    CGContextMoveToPoint(ctx, p0.first, p0.second); //start at this point
+    CGContextMoveToPoint(ctx, p0.first + 2, p0.second); //start at this point
     CGContextAddLineToPoint(ctx, p1.first, p1.second); //draw to this point
-    CGContextAddLineToPoint(ctx, p2.first, p2.second); //draw to this point
+    CGContextAddLineToPoint(ctx, p2.first, p2.second - 2); //draw to this point
+    CGContextStrokePath(ctx);
+    
+    CGContextMoveToPoint(ctx, p2.first - 2, p2.second); //start at this point
     CGContextAddLineToPoint(ctx, p3.first, p3.second); //draw to this point
-    CGContextAddLineToPoint(ctx, p0.first, p0.second); //draw to this point
+    CGContextAddLineToPoint(ctx, p0.first, p0.second + 2); //draw to this point
     
     // and now draw the Path!
     CGContextStrokePath(ctx);    

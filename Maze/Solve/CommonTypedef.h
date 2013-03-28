@@ -9,10 +9,10 @@
 #ifndef Maze_CommonTypedef_h
 #define Maze_CommonTypedef_h
 
-//#define MASS_SIZE_X 64
-//#define MASS_SIZE_Y 64
-#define MASS_SIZE_X 128
-#define MASS_SIZE_Y 128
+#define MASS_SIZE_X 64
+#define MASS_SIZE_Y 64
+//#define MASS_SIZE_X 128
+//#define MASS_SIZE_Y 128
 
 struct MassIndex{
     int x;// 0始まりの行番号
